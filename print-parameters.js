@@ -1,16 +1,17 @@
-function getAndPrintHTML() {
+function getAndPrintHTML( options ) {
   const https = require( 'https' );
-  let bufferedHTML = '';
 
-  let requestOptions = {
-    host: 'sytantris.github.io',
-    path: '/http-examples/step2.html'
+  const { host:host, path:path } = options;
+
+  const requestOptions = {
+    'host': host,
+    'path': path
   };
 
-  /* Add your code here */
+  let bufferedHTML = '';
+
   https.get( requestOptions, function ( response ) {
     response.setEncoding( 'utf8' );
-
     // the callback is invoked when a `data` chunk is received
     response.on( 'data', function ( stream ) {
       bufferedHTML += stream;
@@ -18,10 +19,15 @@ function getAndPrintHTML() {
 
     response.on( 'end', function () {
       console.log( 'Response stream complete.' );
-      console.log(bufferedHTML);
+      console.log( bufferedHTML );
     } );
+
   } );
-  
 }
 
-getAndPrintHTML();
+const obj = {
+  host: 'sytantris.github.io',
+  path: '/http-examples/step3.html'
+};
+
+getAndPrintHTML( obj );
